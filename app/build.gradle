@@ -54,8 +54,6 @@ dependencies {
     def core_version = "1.8.0"
     implementation "androidx.core:core-ktx:$core_version"
 
-//    implementation "androidx.customview:customview:1.1.0"
-
     //test
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
