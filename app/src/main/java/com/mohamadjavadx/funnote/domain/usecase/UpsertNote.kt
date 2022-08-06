@@ -18,7 +18,7 @@ class UpsertNote(
             repository.upsertNote(validNote)
         }
     } catch (exception: Exception) {
-        flow<DataState<Unit>> {
+        flow {
             emit(
                 DataState.error(
                     Message.Snackbar(
