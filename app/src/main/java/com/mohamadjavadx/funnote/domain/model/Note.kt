@@ -1,10 +1,9 @@
 package com.mohamadjavadx.funnote.domain.model
 
 import kotlinx.datetime.Instant
-import java.util.*
 
 data class Note(
-    val id: UUID,
+    val id: Long,
     val title: String,
     val content: Markdown,
     val createdAt: Instant,

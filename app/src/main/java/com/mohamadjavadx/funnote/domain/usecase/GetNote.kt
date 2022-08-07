@@ -10,6 +10,6 @@ import java.util.*
 class GetNote(
     private val repository: NoteRepository,
 ) {
-    operator fun invoke(id: UUID): Flow<DataState<Note>> =
+    operator fun invoke(id: Long): Flow<DataState<Note>> =
         repository.getNote(id)
 }

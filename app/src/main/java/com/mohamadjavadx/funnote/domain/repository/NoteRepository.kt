@@ -7,7 +7,7 @@ import java.util.*
 
 interface NoteRepository {
     fun getAllNotes(): Flow<DataState<List<Note>>>
-    fun getNote(id: UUID): Flow<DataState<Note>>
+    fun getNote(id: Long): Flow<DataState<Note>>
     fun upsertNote(note: Note): Flow<DataState<Unit>>
-    fun deleteNote(id: UUID): Flow<DataState<Unit>>
+    fun deleteNote(id: Long): Flow<DataState<Unit>>
 }

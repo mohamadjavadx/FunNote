@@ -8,6 +8,6 @@ import java.util.*
 class DeleteNote(
     private val repository: NoteRepository,
 ) {
-    operator fun invoke(id: UUID): Flow<DataState<Unit>> =
+    operator fun invoke(id: Long): Flow<DataState<Unit>> =
         repository.deleteNote(id)
 }
