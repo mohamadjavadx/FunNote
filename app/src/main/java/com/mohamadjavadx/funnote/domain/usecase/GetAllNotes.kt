@@ -15,26 +15,23 @@ class GetAllNotes(
 ) {
     operator fun invoke(noteOrder: NoteOrder): Flow<DataState<List<Note>>> =
         repository.getAllNotes().map { dataState ->
-            val data = dataState.data
-            if (data.isNullOrEmpty()) {
-                dataState
-            } else {
-                when (noteOrder.arrangement) {
-                    Ascending -> {
-                        when (noteOrder.criteria) {
-                            Title -> dataState.copy(data = data.sortedBy { it.title.lowercase() })
-                            CreatedDate -> dataState.copy(data = data.sortedBy { it.createdAt })
-                            ModificationDate -> dataState.copy(data = data.sortedBy { it.updatedAt })
-                        }
+            val notes: List<Note> = dataState.data ?: return@map dataState
+            when (noteOrder.arrangement) {
+                Ascending -> {
+                    when (noteOrder.criteria) {
+                        Title -> dataState.copy(data = notes.sortedBy { it.title.lowercase() })
+                        CreatedDate -> dataState.copy(data = notes.sortedBy { it.createdAt })
+                        ModificationDate -> dataState.copy(data = notes.sortedBy { it.updatedAt })
                     }
-                    Descending -> {
-                        when (noteOrder.criteria) {
-                            Title -> dataState.copy(data = data.sortedByDescending { it.title.lowercase() })
-                            CreatedDate -> dataState.copy(data = data.sortedByDescending { it.createdAt })
-                            ModificationDate -> dataState.copy(data = data.sortedByDescending { it.updatedAt })
-                        }
+                }
+                Descending -> {
+                    when (noteOrder.criteria) {
+                        Title -> dataState.copy(data = notes.sortedByDescending { it.title.lowercase() })
+                        CreatedDate -> dataState.copy(data = notes.sortedByDescending { it.createdAt })
+                        ModificationDate -> dataState.copy(data = notes.sortedByDescending { it.updatedAt })
                     }
                 }
             }
         }
+
 }
