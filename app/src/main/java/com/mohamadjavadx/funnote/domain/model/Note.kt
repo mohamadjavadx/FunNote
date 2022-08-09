@@ -1,11 +1,17 @@
 package com.mohamadjavadx.funnote.domain.model
 
-import kotlinx.datetime.Instant
+import androidx.room.Embedded
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 
+@Entity
 data class Note(
-    val id: Long,
     val title: String,
+    @Embedded
     val content: Markdown,
-    val createdAt: Instant,
-    val updatedAt: Instant,
+    val createdAt: Long,
+    val updatedAt: Long,
+
+    @PrimaryKey(autoGenerate = true)
+    val id: Long = 0,
 )
