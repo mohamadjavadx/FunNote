@@ -18,9 +18,13 @@ interface NoteDao {
     suspend fun delete(vararg id: Long)
 
     @Query("SELECT * FROM Note WHERE id = :id")
-    fun get(id: Long): Note?
+    fun get(id: Long): Flow<Note>
 
     @Query("SELECT * FROM Note")
     fun getAll(): Flow<List<Note>>
+
+//    @MapInfo(keyColumn = "id")
+//    @Query("SELECT title FROM Note WHERE EXISTS(SELECT id FROM Note WHERE id IN (:ids))")
+//    fun isAlreadyExist(ids: Long): List<String>
 
 }

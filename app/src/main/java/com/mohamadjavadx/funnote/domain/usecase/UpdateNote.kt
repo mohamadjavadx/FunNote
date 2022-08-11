@@ -9,13 +9,13 @@ import com.mohamadjavadx.funnote.domain.util.UNKNOWN_ERROR
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
-class UpsertNote(
+class UpdateNote(
     private val repository: NoteRepository,
     private val validateNoteOrThrow: ValidateNoteOrThrow,
 ) {
     operator fun invoke(note: Note): Flow<Result<Unit>> = try {
         validateNoteOrThrow(note).let { validNote ->
-            repository.upsertNote(validNote)
+            repository.updateNote(validNote)
         }
     } catch (exception: Exception) {
         flow {
