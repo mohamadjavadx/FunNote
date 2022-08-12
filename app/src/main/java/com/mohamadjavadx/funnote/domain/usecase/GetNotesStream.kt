@@ -26,15 +26,15 @@ constructor(
                     Ascending -> {
                         when (noteOrder.criteria) {
                             Title -> result.copy(data = notes.sortedBy { it.title.lowercase() })
-                            CreatedDate -> result.copy(data = notes.sortedBy { it.createdAt })
-                            ModificationDate -> result.copy(data = notes.sortedBy { it.updatedAt })
+                            CreationDate -> result.copy(data = notes.sortedBy { it.createdAt })
+                            ModificationDate -> result.copy(data = notes.sortedBy { it.modifiedAt })
                         }
                     }
                     Descending -> {
                         when (noteOrder.criteria) {
                             Title -> result.copy(data = notes.sortedByDescending { it.title.lowercase() })
-                            CreatedDate -> result.copy(data = notes.sortedByDescending { it.createdAt })
-                            ModificationDate -> result.copy(data = notes.sortedByDescending { it.updatedAt })
+                            CreationDate -> result.copy(data = notes.sortedByDescending { it.createdAt })
+                            ModificationDate -> result.copy(data = notes.sortedByDescending { it.modifiedAt })
                         }
                     }
                 }

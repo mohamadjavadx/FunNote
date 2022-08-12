@@ -14,7 +14,7 @@ data class NoteEntity(
     @Embedded
     val content: MarkdownEntity,
     val createdAt: Instant,
-    val updatedAt: Instant,
+    val modifiedAt: Instant,
 )
 
 fun NoteEntity.asExternalModel() = Note(
@@ -22,7 +22,7 @@ fun NoteEntity.asExternalModel() = Note(
     title = title,
     content = content.asExternalModel(),
     createdAt = createdAt,
-    updatedAt = updatedAt,
+    modifiedAt = modifiedAt,
 )
 
 fun Note.asEntity() = NoteEntity(
@@ -30,5 +30,5 @@ fun Note.asEntity() = NoteEntity(
     title = title,
     content = content.asEntity(),
     createdAt = createdAt,
-    updatedAt = updatedAt,
+    modifiedAt = modifiedAt,
 )

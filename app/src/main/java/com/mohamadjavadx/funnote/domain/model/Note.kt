@@ -7,5 +7,5 @@ data class Note(
     val title: String,
     val content: Markdown,
     val createdAt: Instant,
-    val updatedAt: Instant,
+    val modifiedAt: Instant,
 )

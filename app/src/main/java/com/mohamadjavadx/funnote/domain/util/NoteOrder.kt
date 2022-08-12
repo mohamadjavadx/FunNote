@@ -6,7 +6,7 @@ class NoteOrder(
 ) {
     enum class Criteria {
         Title,
-        CreatedDate,
+        CreationDate,
         ModificationDate,
     }
 }

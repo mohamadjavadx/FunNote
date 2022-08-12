@@ -29,8 +29,10 @@ constructor(
 
     fun onEvent(event: NoteListEvents) {
         when (event) {
-            is NoteListEvents.ChangeViewOrder -> changeViewOrder(event.noteOrder)
-            is NoteListEvents.DeleteNotes -> deleteNotes(event.noteIds)
+            is NoteListEvents.ChangeViewOrder -> changeViewOrder(event.order)
+            is NoteListEvents.DeleteSelectedNotes -> deleteSelectedNotes()
+            is NoteListEvents.SelectNote -> selectNote(event.id)
+            is NoteListEvents.DeselectNote -> deselectNote(event.id)
             is NoteListEvents.MessageShown -> removeShownMassage(event.message)
             is NoteListEvents.NavigateToCreateNewNote -> TODO()
             is NoteListEvents.NavigateToNoteDetail -> TODO()
@@ -58,7 +60,7 @@ constructor(
                     }
                 }
             }
-            .flowOn(viewModelScope.coroutineContext)
+            .launchIn(viewModelScope)
 
     }
 
@@ -70,8 +72,22 @@ constructor(
         }
     }
 
-    private fun deleteNotes(noteIds: List<Long>) {
-        deleteNotes.invoke(noteIds)
+    private fun selectNote(id:Long){
+        val selectedNotes = _viewState.value.selectedNotes + id
+        _viewState.update {
+            it.copy(selectedNotes = selectedNotes)
+        }
+    }
+
+    private fun deselectNote(id:Long){
+        val selectedNotes = _viewState.value.selectedNotes - id
+        _viewState.update {
+            it.copy(selectedNotes = selectedNotes)
+        }
+    }
+
+    private fun deleteSelectedNotes() {
+        deleteNotes.invoke(_viewState.value.selectedNotes.toList())
             .onEach { result ->
                 when (result) {
                     is Result.Error -> {
@@ -86,13 +102,13 @@ constructor(
                     is Result.Success -> Unit
                 }
             }
-            .flowOn(viewModelScope.coroutineContext)
+            .launchIn(viewModelScope)
     }
 
 
     private fun removeShownMassage(message: Message) {
+        val messages = _viewState.value.messages.filterNot { it == message }
         _viewState.update {
-            val messages = it.messages - message
             it.copy(messages = messages)
         }
     }
