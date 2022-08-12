@@ -11,8 +11,11 @@ import com.mohamadjavadx.funnote.domain.util.asResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class NoteRepositoryImpl(
+class NoteRepositoryImpl
+@Inject
+constructor(
     private val dao: NoteDao,
 ) : NoteRepository {
 
