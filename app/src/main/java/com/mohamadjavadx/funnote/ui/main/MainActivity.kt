@@ -1,4 +1,4 @@
-package com.mohamadjavadx.funnote
+package com.mohamadjavadx.funnote.ui.main
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
