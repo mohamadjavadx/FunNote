@@ -6,10 +6,15 @@ import com.mohamadjavadx.funnote.domain.model.Note
 import com.mohamadjavadx.funnote.domain.repository.NoteRepository
 import com.mohamadjavadx.funnote.domain.util.Result
 import com.mohamadjavadx.funnote.domain.util.UNKNOWN_ERROR
+import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
+import javax.inject.Inject
 
-class UpsertNote(
+@ViewModelScoped
+class UpsertNote
+@Inject
+constructor(
     private val repository: NoteRepository,
     private val validateNoteOrThrow: ValidateNoteOrThrow,
 ) {

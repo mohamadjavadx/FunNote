@@ -4,13 +4,18 @@ import com.mohamadjavadx.funnote.domain.model.Note
 import com.mohamadjavadx.funnote.domain.repository.NoteRepository
 import com.mohamadjavadx.funnote.domain.util.Arrangement.Ascending
 import com.mohamadjavadx.funnote.domain.util.Arrangement.Descending
-import com.mohamadjavadx.funnote.domain.util.Result
 import com.mohamadjavadx.funnote.domain.util.NoteOrder
 import com.mohamadjavadx.funnote.domain.util.NoteOrder.Criteria.*
+import com.mohamadjavadx.funnote.domain.util.Result
+import dagger.hilt.android.scopes.ViewModelScoped
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
+import javax.inject.Inject
 
-class GetNotesStream(
+@ViewModelScoped
+class GetNotesStream
+@Inject
+constructor(
     private val repository: NoteRepository,
 ) {
     operator fun invoke(noteOrder: NoteOrder): Flow<Result<List<Note>>> =
@@ -33,8 +38,7 @@ class GetNotesStream(
                         }
                     }
                 }
-            }
-            else result
+            } else result
         }
 
 }
