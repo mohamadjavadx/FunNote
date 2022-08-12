@@ -9,4 +9,5 @@ interface NoteRepository {
     fun getNotesStream(): Flow<Result<List<Note>>>
     fun upsertNote(note: Note): Flow<Result<Unit>>
     fun deleteNote(id: Long): Flow<Result<Unit>>
+    fun deleteNotes(ids: List<Long>): Flow<Result<Unit>>
 }

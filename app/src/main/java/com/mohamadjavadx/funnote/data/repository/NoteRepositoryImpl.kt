@@ -34,4 +34,7 @@ constructor(
         emit(dao.deleteNote(id))
     }.asResult()
 
+    override fun deleteNotes(ids: List<Long>): Flow<Result<Unit>> = flow {
+        emit(dao.deleteNotes(ids))
+    }.asResult()
 }
