@@ -12,31 +12,31 @@ import kotlinx.coroutines.flow.*
 import javax.inject.Inject
 
 @HiltViewModel
-class NoteListViewModel
+class NotesViewModel
 @Inject
 constructor(
     private val getNotesStream: GetNotesStream,
     private val deleteNotes: DeleteNotes,
 ) : ViewModel() {
 
-    private val _viewState: MutableStateFlow<NoteListViewState> =
-        MutableStateFlow(NoteListViewState())
-    val viewState: StateFlow<NoteListViewState> = _viewState
+    private val _viewState: MutableStateFlow<NotesViewState> =
+        MutableStateFlow(NotesViewState())
+    val viewState: StateFlow<NotesViewState> = _viewState
 
     init {
-        onEvent(NoteListEvents.Refresh)
+        onEvent(NotesEvents.Refresh)
     }
 
-    fun onEvent(event: NoteListEvents) {
+    fun onEvent(event: NotesEvents) {
         when (event) {
-            is NoteListEvents.ChangeViewOrder -> changeViewOrder(event.order)
-            is NoteListEvents.DeleteSelectedNotes -> deleteSelectedNotes()
-            is NoteListEvents.SelectNote -> selectNote(event.id)
-            is NoteListEvents.DeselectNote -> deselectNote(event.id)
-            is NoteListEvents.MessageShown -> removeShownMassage(event.message)
-            is NoteListEvents.NavigateToCreateNewNote -> TODO()
-            is NoteListEvents.NavigateToNoteDetail -> TODO()
-            is NoteListEvents.Refresh -> getNotes()
+            is NotesEvents.ChangeViewOrder -> changeViewOrder(event.order)
+            is NotesEvents.DeleteSelectedNotes -> deleteSelectedNotes()
+            is NotesEvents.SelectNote -> selectNote(event.id)
+            is NotesEvents.DeselectNote -> deselectNote(event.id)
+            is NotesEvents.MessageShown -> removeShownMassage(event.message)
+            is NotesEvents.NavigateToCreateNewNote -> TODO()
+            is NotesEvents.NavigateToNoteDetail -> TODO()
+            is NotesEvents.Refresh -> getNotes()
         }
     }
 

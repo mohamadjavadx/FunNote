@@ -6,7 +6,7 @@ import com.mohamadjavadx.funnote.domain.util.Arrangement.Ascending
 import com.mohamadjavadx.funnote.domain.util.NoteOrder
 import com.mohamadjavadx.funnote.domain.util.NoteOrder.Criteria.ModificationDate
 
-data class NoteListViewState(
+data class NotesViewState(
     val noteOrder: NoteOrder = NoteOrder(ModificationDate, Ascending),
     val notes: List<Note> = emptyList(),
     val selectedNotes: Set<Long> = emptySet(),
