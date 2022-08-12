@@ -2,15 +2,21 @@ package com.mohamadjavadx.funnote.data.source.local
 
 import androidx.room.Database
 import androidx.room.RoomDatabase
-import com.mohamadjavadx.funnote.domain.model.Note
+import androidx.room.TypeConverters
+import com.mohamadjavadx.funnote.data.source.local.dao.NoteDao
+import com.mohamadjavadx.funnote.data.source.local.model.NoteEntity
+import com.mohamadjavadx.funnote.data.util.InstantConverter
 
 @Database(
-    entities = [Note::class],
+    entities = [NoteEntity::class],
     version = 1,
+)
+@TypeConverters(
+    InstantConverter::class,
 )
 abstract class LocalDatabase : RoomDatabase() {
 
-    abstract val noteDao: NoteDao
+    abstract fun noteDao(): NoteDao
 
     companion object {
         const val DatabaseName = "local_database"

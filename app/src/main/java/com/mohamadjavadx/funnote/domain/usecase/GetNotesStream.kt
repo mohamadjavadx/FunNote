@@ -10,11 +10,11 @@ import com.mohamadjavadx.funnote.domain.util.NoteOrder.Criteria.*
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.map
 
-class GetAllNotes(
+class GetNotesStream(
     private val repository: NoteRepository,
 ) {
     operator fun invoke(noteOrder: NoteOrder): Flow<Result<List<Note>>> =
-        repository.getAllNotes().map { result ->
+        repository.getNotesStream().map { result ->
             if (result is Result.Success) {
                 val notes = result.data
                 when (noteOrder.arrangement) {

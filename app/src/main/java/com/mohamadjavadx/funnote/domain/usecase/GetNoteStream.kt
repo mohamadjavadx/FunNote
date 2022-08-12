@@ -9,5 +9,5 @@ class GetNote(
     private val repository: NoteRepository,
 ) {
     operator fun invoke(id: Long): Flow<Result<Note>> =
-        repository.getNote(id)
+        repository.getNoteStream(id)
 }
