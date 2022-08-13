@@ -1,4 +1,4 @@
-package com.mohamadjavadx.funnote.ui.notelist
+package com.mohamadjavadx.funnote.ui.notes
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

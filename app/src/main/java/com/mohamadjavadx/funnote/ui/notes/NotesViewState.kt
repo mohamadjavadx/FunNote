@@ -1,4 +1,4 @@
-package com.mohamadjavadx.funnote.ui.notelist
+package com.mohamadjavadx.funnote.ui.notes
 
 import com.mohamadjavadx.funnote.domain.model.Message
 import com.mohamadjavadx.funnote.domain.model.Note
