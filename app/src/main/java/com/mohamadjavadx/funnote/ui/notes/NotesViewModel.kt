@@ -19,8 +19,7 @@ constructor(
     private val deleteNotes: DeleteNotes,
 ) : ViewModel() {
 
-    private val _viewState: MutableStateFlow<NotesViewState> =
-        MutableStateFlow(NotesViewState())
+    private val _viewState: MutableStateFlow<NotesViewState> = MutableStateFlow(NotesViewState())
     val viewState: StateFlow<NotesViewState> = _viewState
 
     init {

@@ -1,4 +1,4 @@
-package com.mohamadjavadx.funnote.ui.main
+package com.mohamadjavadx.funnote.ui
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -10,7 +10,10 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.mohamadjavadx.funnote.ui.notes.NavGraph
+import com.mohamadjavadx.funnote.ui.notes.NavGraphs
 import com.mohamadjavadx.funnote.ui.theme.FunNoteTheme
+import com.ramcosta.composedestinations.DestinationsNavHost
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -19,27 +22,8 @@ class MainActivity : ComponentActivity() {
         super.onCreate(savedInstanceState)
         setContent {
             FunNoteTheme {
-                // A surface container using the 'background' color from the theme
-                Surface(
-                    modifier = Modifier.fillMaxSize(),
-                    color = MaterialTheme.colorScheme.background
-                ) {
-                    Greeting("Android")
-                }
+                DestinationsNavHost(navGraph = NavGraphs.root)
             }
         }
-    }
-}
-
-@Composable
-fun Greeting(name: String) {
-    Text(text = "Hello $name!")
-}
-
-@Preview(showBackground = true)
-@Composable
-fun DefaultPreview() {
-    FunNoteTheme {
-        Greeting("Android")
     }
 }
