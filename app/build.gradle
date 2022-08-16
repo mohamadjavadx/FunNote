@@ -88,7 +88,7 @@ dependencies {
     implementation "androidx.compose.foundation:foundation:$compose_version"
     //compose.material
     implementation 'androidx.compose.material3:material3:1.0.0-alpha15'
-    implementation "androidx.compose.material:material:$compose_version"
+//    implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.compose.material:material-icons-core:$compose_version"
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
     //compose.livedata
