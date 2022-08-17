@@ -5,9 +5,11 @@ A fun and functional note taking app implemented with MVI + clean architecture, 
 <img src="https://user-images.githubusercontent.com/57070063/185182654-994c1ed3-cbbd-4764-8c71-20886695e19f.png" style="height: 499px; width:241px;"/>
 
 
+Work in progress:
 
+![](https://us-central1-progress-markdown.cloudfunctions.net/progress/60)
 
-todos:
+Roadmap:
 - [x] implement domain layer
 - [x] implement data layer (Room ORM)
 - [x] config dependency injection (Dagger Hilt)
