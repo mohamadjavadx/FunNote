@@ -9,6 +9,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.LayoutDirection
 import androidx.compose.ui.unit.dp
+import kotlin.math.sqrt
 
 class NoteShape : Shape {
 
@@ -21,7 +22,7 @@ class NoteShape : Shape {
             drawNotePath(
                 size,
                 with(density) { noteCornerRadiusDp.toPx() },
-                with(density) { cutCornerSizeDp.toPx() },
+                with(density) { noteCutCornerSizeDp.toPx() },
             )
         )
     }
@@ -81,33 +82,42 @@ class NoteShape : Shape {
             return Outline.Generic(
                 drawNoteMenuPath(
                     size,
-                    with(density) { noteCornerRadiusDp.toPx() })
+                    with(density) { noteCornerRadiusDp.toPx() }
+                )
             )
         }
 
-        private fun drawNoteMenuPath(size: Size, noteCornerRadius: Float): Path = Path().apply {
+        fun drawNoteMenuPath(size: Size, noteCornerRadius: Float): Path = Path().apply {
+            val menuCornerRadius = noteCornerRadius * 0.9f
+            val startOffset = Offset(size.width* 0.1f,size.height * 0.1f)
+            val height = size.height* 0.9f
+            val width = size.width* 0.9f
             reset()
-            lineTo(size.width, size.height)
-            lineTo(noteCornerRadius, size.height)
+            moveTo(startOffset.x,startOffset.y)
+            lineTo(width, height)
+            lineTo(menuCornerRadius, height)
+
             arcTo(
                 rect = Rect(
-                    center = Offset(noteCornerRadius, size.height - noteCornerRadius),
-                    radius = noteCornerRadius
+                    center = Offset(menuCornerRadius+startOffset.x,height-menuCornerRadius),
+                    radius = menuCornerRadius
                 ),
                 startAngleDegrees = 90f,
                 sweepAngleDegrees = 90f,
                 forceMoveTo = false
             )
-            lineTo(0f, 0f)
+            lineTo(startOffset.x,startOffset.y)
             close()
         }
 
     }
 
     companion object {
-        val noteCornerRadiusDp = 16.dp
-        val cutCornerSizeDp = noteCornerRadiusDp * 3
-        val noteMenuSizeDp = cutCornerSizeDp
+        val noteCornerRadiusDp = 8.dp
+        val noteCutCornerSizeDp = noteCornerRadiusDp * 5
+
+        val menuSizeDp = noteCutCornerSizeDp
+        val menuCornerRadiusDp = noteCornerRadiusDp * 0.9f
     }
 
 }

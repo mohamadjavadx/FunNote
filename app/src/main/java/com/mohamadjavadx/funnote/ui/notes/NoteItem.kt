@@ -1,6 +1,6 @@
 package com.mohamadjavadx.funnote.ui.notes
 
-import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.aspectRatio
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -16,18 +16,21 @@ import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.mohamadjavadx.funnote.domain.model.Note
 import com.mohamadjavadx.funnote.ui.components.FunIcon
+import com.mohamadjavadx.funnote.ui.notes.NoteShape.Companion.noteCornerRadiusDp
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteItem(
     note: Note,
     modifier: Modifier = Modifier,
-    cornerRadius: Dp = 16.dp
+    cornerRadius: Dp = noteCornerRadiusDp
+
 ) {
     Card(
         modifier = modifier
             .padding(cornerRadius)
-            .fillMaxSize(),
+            .fillMaxWidth()
+            .aspectRatio(3f),
         shape = NoteShape(),
     ) {
         ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
@@ -44,11 +47,10 @@ fun NoteItem(
                     .constrainAs(menuButton) {
                         top.linkTo(parent.top)
                         end.linkTo(parent.end)
-                        width = Dimension.value(NoteShape.noteMenuSizeDp)
-                        height = Dimension.value(NoteShape.noteMenuSizeDp)
-
+                        width = Dimension.value(NoteShape.noteCutCornerSizeDp)
+                        height = Dimension.value(NoteShape.noteCutCornerSizeDp)
                     },
-                ) {
+            ) {
                 FunIcon(
                     Icons.Default.ExpandMore,
                     Modifier.rotate(45f),
@@ -72,5 +74,4 @@ fun NoteItem(
 
         }
     }
-
 }
