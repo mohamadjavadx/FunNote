@@ -62,7 +62,7 @@ fun NotesScreenContent(
             NoteItem(
                 Note(
                     0,
-                    "title title title title title title title",
+                    "title title title title title title title title title title title title",
                     Markdown("content"),
                     Clock.System.now(),
                     Clock.System.now(),

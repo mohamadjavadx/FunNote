@@ -1,6 +1,7 @@
 package com.mohamadjavadx.funnote.ui.notes
 
 import androidx.compose.foundation.layout.aspectRatio
+import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material.icons.Icons
@@ -16,6 +17,7 @@ import androidx.compose.ui.graphics.Outline
 import androidx.compose.ui.graphics.Path
 import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.unit.Density
 import androidx.compose.ui.unit.Dp
@@ -24,7 +26,9 @@ import androidx.compose.ui.unit.dp
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.mohamadjavadx.funnote.domain.model.Note
+import com.mohamadjavadx.funnote.domain.util.toDateTimeString
 import com.mohamadjavadx.funnote.ui.components.FunIcon
+import com.mohamadjavadx.funnote.ui.components.border
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
@@ -34,22 +38,24 @@ fun NoteItem(
     cornerRadius: Dp = 16.dp,
 ) {
     val cornerRadiusPx = with(LocalDensity.current) { cornerRadius.toPx() }
-    val cutCornerSizePX = cornerRadiusPx * 4
-    val cutCornerSize = with(LocalDensity.current) { cutCornerSizePX.toDp() }
+    val menuSize = 48.dp
+    val menuSizePX = with(LocalDensity.current) { menuSize.toPx() }
+    val contentPadding = 16.dp
 
     Card(
         modifier = modifier
             .padding(cornerRadius)
             .fillMaxWidth()
-            .aspectRatio(3f),
-        shape = NoteShape(cornerRadiusPx, cutCornerSizePX),
+            .aspectRatio(2f),
+        shape = NoteShape(cornerRadiusPx, menuSizePX),
     ) {
-        ConstraintLayout(modifier = Modifier.fillMaxWidth()) {
-            val (title, menuButton, menuIcon) = createRefs()
+        ConstraintLayout(modifier = Modifier.fillMaxSize()) {
+            val (title, menuButton, body, timestamp) = createRefs()
 
-            val topGuideline = createGuidelineFromTop(cornerRadius)
-            val startGuideline = createGuidelineFromStart(cornerRadius)
-            val endGuideline = createGuidelineFromEnd(cornerRadius)
+            val topGuideline = createGuidelineFromTop(contentPadding)
+            val buttonGuideline = createGuidelineFromBottom(contentPadding)
+            val startGuideline = createGuidelineFromStart(contentPadding)
+            val endGuideline = createGuidelineFromEnd(contentPadding)
 
             FilledIconButton(
                 onClick = {},
@@ -58,9 +64,10 @@ fun NoteItem(
                     .constrainAs(menuButton) {
                         top.linkTo(parent.top)
                         end.linkTo(parent.end)
-                        width = Dimension.value(cutCornerSize)
-                        height = Dimension.value(cutCornerSize)
-                    },
+                        width = Dimension.value(menuSize)
+                        height = Dimension.value(menuSize)
+                    }
+                    .border(),
             ) {
                 FunIcon(
                     Icons.Default.ExpandMore,
@@ -69,18 +76,55 @@ fun NoteItem(
             }
 
             Text(
-                modifier = Modifier.constrainAs(title) {
-                    top.linkTo(topGuideline)
-                    start.linkTo(startGuideline)
-                    end.linkTo(menuButton.start, margin = cornerRadius)
-                    width = Dimension.fillToConstraints
-                },
+                modifier = Modifier
+                    .constrainAs(title) {
+                        top.linkTo(topGuideline)
+                        start.linkTo(startGuideline)
+                        end.linkTo(menuButton.start, margin = contentPadding)
+                        width = Dimension.fillToConstraints
+                    }
+                    .border(),
                 text = note.title,
                 style = MaterialTheme.typography.headlineSmall,
                 color = MaterialTheme.colorScheme.onSurface,
                 maxLines = 1,
+                overflow = TextOverflow.Ellipsis,
+            )
+
+            Text(
+                modifier = Modifier
+                    .constrainAs(body) {
+                        top.linkTo(title.bottom, contentPadding)
+                        bottom.linkTo(timestamp.top, contentPadding)
+                        start.linkTo(startGuideline)
+                        end.linkTo(endGuideline)
+                        width = Dimension.fillToConstraints
+                        height = Dimension.fillToConstraints
+                    }
+                    .border(),
+                text = note.content.originalContent,
+                style = MaterialTheme.typography.bodyLarge,
+                color = MaterialTheme.colorScheme.onSurface,
                 overflow = TextOverflow.Ellipsis
             )
+
+            Text(
+                modifier = Modifier
+                    .constrainAs(timestamp) {
+                        bottom.linkTo(buttonGuideline)
+                        start.linkTo(startGuideline)
+                        end.linkTo(endGuideline)
+                        width = Dimension.fillToConstraints
+                    }
+                    .border(),
+                text = note.createdAt.toDateTimeString(),
+                style = MaterialTheme.typography.labelMedium,
+                color = MaterialTheme.colorScheme.onSurface,
+                textAlign = TextAlign.End,
+                maxLines = 1,
+                overflow = TextOverflow.Ellipsis
+            )
+
 
         }
     }
