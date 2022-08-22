@@ -19,7 +19,7 @@ constructor(
     private val deleteNotes: DeleteNotes,
 ) : ViewModel() {
 
-    private val _viewState: MutableStateFlow<NotesViewState> = MutableStateFlow(NotesViewState())
+    private val _viewState = MutableStateFlow(NotesViewState(isLoading = true))
     val viewState: StateFlow<NotesViewState> = _viewState
 
     init {
@@ -71,14 +71,14 @@ constructor(
         }
     }
 
-    private fun selectNote(id:Long){
+    private fun selectNote(id: Long) {
         val selectedNotes = _viewState.value.selectedNotes + id
         _viewState.update {
             it.copy(selectedNotes = selectedNotes)
         }
     }
 
-    private fun deselectNote(id:Long){
+    private fun deselectNote(id: Long) {
         val selectedNotes = _viewState.value.selectedNotes - id
         _viewState.update {
             it.copy(selectedNotes = selectedNotes)
