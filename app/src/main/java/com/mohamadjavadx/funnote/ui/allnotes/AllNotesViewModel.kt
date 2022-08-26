@@ -1,4 +1,4 @@
-package com.mohamadjavadx.funnote.ui.notes
+package com.mohamadjavadx.funnote.ui.allnotes
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
@@ -6,7 +6,6 @@ import com.mohamadjavadx.funnote.domain.model.Markdown
 import com.mohamadjavadx.funnote.domain.model.Message
 import com.mohamadjavadx.funnote.domain.model.Note
 import com.mohamadjavadx.funnote.domain.usecase.DeleteNote
-import com.mohamadjavadx.funnote.domain.usecase.DeleteNotes
 import com.mohamadjavadx.funnote.domain.usecase.GetNotesStream
 import com.mohamadjavadx.funnote.domain.util.NoteOrder
 import com.mohamadjavadx.funnote.domain.util.Result
@@ -16,44 +15,44 @@ import kotlinx.datetime.Clock
 import javax.inject.Inject
 
 @HiltViewModel
-class NotesViewModel
+class AllNotesViewModel
 @Inject
 constructor(
     private val getNotesStream: GetNotesStream,
     private val deleteNote: DeleteNote,
 ) : ViewModel() {
 
-    private val _viewState = MutableStateFlow(NotesViewState(isLoading = true))
-    val viewState: StateFlow<NotesViewState> = _viewState
+    private val _uiState = MutableStateFlow(AllNotesUiState(isLoading = true))
+    val uiState: StateFlow<AllNotesUiState> = _uiState
 
     init {
-        onEvent(NotesEvents.Refresh)
+        onEvent(AllNotesEvents.Refresh)
     }
 
-    fun onEvent(event: NotesEvents) {
+    fun onEvent(event: AllNotesEvents) {
         when (event) {
-            is NotesEvents.UpdateOrder -> changeViewOrder(event.order)
-            is NotesEvents.DeleteNote -> deleteNote(event.id)
-            is NotesEvents.MessageShown -> removeShownMassage(event.message)
-            is NotesEvents.Refresh -> getNotes()
+            is AllNotesEvents.UpdateOrder -> changeViewOrder(event.order)
+            is AllNotesEvents.DeleteNote -> deleteNote(event.id)
+            is AllNotesEvents.MessageShown -> removeShownMassage(event.message)
+            is AllNotesEvents.Refresh -> getNotes()
         }
     }
 
     private fun getNotes() {
-        getNotesStream.invoke(_viewState.value.noteOrder)
+        getNotesStream.invoke(_uiState.value.noteOrder)
             .onEach { result ->
                 when (result) {
                     is Result.Error -> {
-                        _viewState.update {
+                        _uiState.update {
                             val messages = it.messages + result.message
                             it.copy(isLoading = false, messages = messages)
                         }
                     }
                     is Result.Loading -> {
-                        _viewState.update { it.copy(isLoading = true) }
+                        _uiState.update { it.copy(isLoading = true) }
                     }
                     is Result.Success -> {
-                        _viewState.update {
+                        _uiState.update {
                             it.copy(isLoading = true, notes = result.data.plus(
                                 List(2) {
                                     Note(
@@ -74,7 +73,7 @@ constructor(
     }
 
     private fun changeViewOrder(noteOrder: NoteOrder) {
-        _viewState.update {
+        _uiState.update {
             it.copy(noteOrder = noteOrder).also {
                 getNotes()
             }
@@ -86,13 +85,13 @@ constructor(
             .onEach { result ->
                 when (result) {
                     is Result.Error -> {
-                        _viewState.update {
+                        _uiState.update {
                             val messages = it.messages + result.message
                             it.copy(isLoading = false, messages = messages)
                         }
                     }
                     is Result.Loading -> {
-                        _viewState.update { it.copy(isLoading = true) }
+                        _uiState.update { it.copy(isLoading = true) }
                     }
                     is Result.Success -> Unit
                 }
@@ -102,8 +101,8 @@ constructor(
 
 
     private fun removeShownMassage(message: Message) {
-        val messages = _viewState.value.messages.filterNot { it == message }
-        _viewState.update {
+        val messages = _uiState.value.messages.filterNot { it == message }
+        _uiState.update {
             it.copy(messages = messages)
         }
     }

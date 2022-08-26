@@ -1,4 +1,4 @@
-package com.mohamadjavadx.funnote.ui.notes
+package com.mohamadjavadx.funnote.ui.allnotes
 
 import androidx.compose.foundation.ExperimentalFoundationApi
 import androidx.compose.foundation.background
@@ -19,7 +19,6 @@ import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.unit.DpOffset
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
-import com.mohamadjavadx.funnote.domain.model.Markdown
 import com.mohamadjavadx.funnote.domain.model.Message
 import com.mohamadjavadx.funnote.domain.model.Note
 import com.mohamadjavadx.funnote.domain.util.NoteOrder
@@ -28,16 +27,15 @@ import com.mohamadjavadx.funnote.domain.util.readableName
 import com.mohamadjavadx.funnote.ui.components.*
 import com.mohamadjavadx.funnote.ui.navigation.HomeNavGraph
 import com.ramcosta.composedestinations.annotation.Destination
-import kotlinx.datetime.Clock
 
 @HomeNavGraph(start = true)
 @Destination
 @Composable
-fun NotesScreen() {
-    val viewModel: NotesViewModel = hiltViewModel()
+fun AllNotesScreen() {
+    val viewModel: AllNotesViewModel = hiltViewModel()
 
-    val state by viewModel.viewState.collectAsState()
-    NotesScreenContent(
+    val state by viewModel.uiState.collectAsState()
+    AllNotesScreenContent(
         order = state.noteOrder,
         notes = state.notes,
         isLoading = state.isLoading,
@@ -51,12 +49,12 @@ fun NotesScreen() {
 
 @OptIn(ExperimentalMaterial3Api::class, ExperimentalFoundationApi::class)
 @Composable
-fun NotesScreenContent(
+fun AllNotesScreenContent(
     order: NoteOrder,
     notes: List<Note>,
     isLoading: Boolean,
     messages: List<Message>,
-    onTriggerEvent: (NotesEvents) -> Unit,
+    onTriggerEvent: (AllNotesEvents) -> Unit,
     navigateToEditScreen: (Long) -> Unit,
 ) {
 
@@ -88,7 +86,7 @@ fun NotesScreenContent(
                 OrderView(
                     order = order,
                     onUpdateOrder = {
-                        onTriggerEvent(NotesEvents.UpdateOrder(it))
+                        onTriggerEvent(AllNotesEvents.UpdateOrder(it))
                     }
                 )
             }
@@ -101,7 +99,7 @@ fun NotesScreenContent(
                         navigateToEditScreen(note.id)
                     },
                     toggleDelete = {
-                        onTriggerEvent(NotesEvents.DeleteNote(note.id))
+                        onTriggerEvent(AllNotesEvents.DeleteNote(note.id))
                     }
                 )
             }

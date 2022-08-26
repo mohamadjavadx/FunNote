@@ -1,4 +1,4 @@
-package com.mohamadjavadx.funnote.ui.notes
+package com.mohamadjavadx.funnote.ui.allnotes
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
