@@ -1,13 +1,13 @@
 package com.mohamadjavadx.funnote.ui.notes
 
-import androidx.compose.foundation.layout.aspectRatio
-import androidx.compose.foundation.layout.fillMaxSize
-import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Delete
+import androidx.compose.material.icons.filled.EditNote
 import androidx.compose.material.icons.filled.ExpandMore
 import androidx.compose.material3.*
-import androidx.compose.runtime.Composable
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.geometry.Offset
@@ -19,10 +19,7 @@ import androidx.compose.ui.graphics.Shape
 import androidx.compose.ui.platform.LocalDensity
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.unit.Density
-import androidx.compose.ui.unit.Dp
-import androidx.compose.ui.unit.LayoutDirection
-import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.*
 import androidx.constraintlayout.compose.ConstraintLayout
 import androidx.constraintlayout.compose.Dimension
 import com.mohamadjavadx.funnote.domain.model.Note
@@ -30,12 +27,15 @@ import com.mohamadjavadx.funnote.domain.util.toDateTimeString
 import com.mohamadjavadx.funnote.ui.components.FunIcon
 import com.mohamadjavadx.funnote.ui.components.border
 
+//todo improve menu design
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
 fun NoteItem(
     note: Note,
     modifier: Modifier = Modifier,
     cornerRadius: Dp = 16.dp,
+    toggleEdit: () -> Unit,
+    toggleDelete: () -> Unit,
 ) {
     val cornerRadiusPx = with(LocalDensity.current) { cornerRadius.toPx() }
     val menuSize = 48.dp
@@ -49,29 +49,87 @@ fun NoteItem(
         shape = NoteShape(cornerRadiusPx, menuSizePX),
     ) {
         ConstraintLayout(modifier = Modifier.fillMaxSize()) {
-            val (title, menuButton, body, timestamp) = createRefs()
+            val (title, menuExtendButton, menu, body, timestamp) = createRefs()
 
             val topGuideline = createGuidelineFromTop(contentPadding)
             val buttonGuideline = createGuidelineFromBottom(contentPadding)
             val startGuideline = createGuidelineFromStart(contentPadding)
             val endGuideline = createGuidelineFromEnd(contentPadding)
 
-            FilledIconButton(
-                onClick = {},
-                shape = NoteShape.NoteMenuShape(cornerRadiusPx),
-                modifier = Modifier
-                    .constrainAs(menuButton) {
-                        top.linkTo(parent.top)
-                        end.linkTo(parent.end)
-                        width = Dimension.value(menuSize)
-                        height = Dimension.value(menuSize)
-                    }
-                    .border(),
+            var expanded by remember { mutableStateOf(false) }
+
+            Box(modifier = Modifier
+//                .fillMaxSize()
+                .wrapContentSize(Alignment.TopStart)
+                .constrainAs(menuExtendButton) {
+                    top.linkTo(parent.top)
+                    end.linkTo(parent.end)
+//                    width = Dimension.value(menuSize)
+//                    height = Dimension.value(menuSize)
+                }
             ) {
-                FunIcon(
-                    Icons.Default.ExpandMore,
-                    Modifier.rotate(45f),
-                )
+                FilledIconButton(
+                    onClick = { expanded = true },
+                    shape = NoteShape.NoteMenuShape(cornerRadiusPx),
+                    modifier = Modifier
+                        .size(menuSize)
+//                        .constrainAs(menuExtendButton) {
+//                            top.linkTo(parent.top)
+//                            end.linkTo(parent.end)
+//                            width = Dimension.value(menuSize)
+//                            height = Dimension.value(menuSize)
+//                        }
+                        .border(),
+                ) {
+                    FunIcon(
+                        Icons.Default.ExpandMore,
+                        Modifier.rotate(45f),
+                    )
+                }
+
+
+
+                DropdownMenu(
+                    expanded = expanded,
+                    onDismissRequest = { expanded = false },
+                    offset = DpOffset(0.dp, -menuSize),
+                    modifier = Modifier
+//                        .constrainAs(menu) {
+//                            top.linkTo(parent.top)
+//                            bottom.linkTo(parent.bottom)
+//                            start.linkTo(parent.start)
+//                            end.linkTo(parent.end)
+//                            width = Dimension.fillToConstraints
+//                            height = Dimension.fillToConstraints
+//                        }
+                        .border(),
+                ) {
+                    DropdownMenuItem(
+                        text = {
+                            Text("Edit")
+                        },
+                        leadingIcon = {
+                            FunIcon(imageVector = Icons.Default.EditNote)
+                        },
+                        onClick = {
+                            expanded = false
+                            toggleEdit()
+                        }
+                    )
+
+                    DropdownMenuItem(
+                        text = {
+                            Text("Delete")
+                        },
+                        leadingIcon = {
+                            FunIcon(imageVector = Icons.Default.Delete)
+                        },
+                        onClick = {
+                            toggleDelete()
+                            expanded = false
+                        }
+                    )
+                }
             }
 
             Text(
@@ -79,7 +137,7 @@ fun NoteItem(
                     .constrainAs(title) {
                         top.linkTo(topGuideline)
                         start.linkTo(startGuideline)
-                        end.linkTo(menuButton.start, margin = contentPadding)
+                        end.linkTo(parent.end, margin = menuSize + contentPadding)
                         width = Dimension.fillToConstraints
                     }
                     .border(),

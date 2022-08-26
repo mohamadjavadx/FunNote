@@ -2,7 +2,9 @@ package com.mohamadjavadx.funnote.ui.notes
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.mohamadjavadx.funnote.domain.model.Markdown
 import com.mohamadjavadx.funnote.domain.model.Message
+import com.mohamadjavadx.funnote.domain.model.Note
 import com.mohamadjavadx.funnote.domain.usecase.DeleteNote
 import com.mohamadjavadx.funnote.domain.usecase.DeleteNotes
 import com.mohamadjavadx.funnote.domain.usecase.GetNotesStream
@@ -10,6 +12,7 @@ import com.mohamadjavadx.funnote.domain.util.NoteOrder
 import com.mohamadjavadx.funnote.domain.util.Result
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.flow.*
+import kotlinx.datetime.Clock
 import javax.inject.Inject
 
 @HiltViewModel
@@ -51,7 +54,17 @@ constructor(
                     }
                     is Result.Success -> {
                         _viewState.update {
-                            it.copy(isLoading = true, notes = result.data)
+                            it.copy(isLoading = true, notes = result.data.plus(
+                                List(2) {
+                                    Note(
+                                        it + 1.toLong(),
+                                        "title $it",
+                                        Markdown("content"),
+                                        Clock.System.now(),
+                                        Clock.System.now(),
+                                    )
+                                }
+                            ))
                         }
                     }
                 }
