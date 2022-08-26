@@ -42,9 +42,8 @@ fun NoteItem(
     val menuSizePX = with(LocalDensity.current) { menuSize.toPx() }
     val contentPadding = 16.dp
 
-    Card(
+    ElevatedCard(
         modifier = modifier
-            .padding(cornerRadius)
             .fillMaxWidth()
             .aspectRatio(2f),
         shape = NoteShape(cornerRadiusPx, menuSizePX),
@@ -86,7 +85,7 @@ fun NoteItem(
                     .border(),
                 text = note.title,
                 style = MaterialTheme.typography.headlineSmall,
-                color = MaterialTheme.colorScheme.onSurface,
+//                color = MaterialTheme.colorScheme.onSurface,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis,
             )
@@ -104,7 +103,7 @@ fun NoteItem(
                     .border(),
                 text = note.content.originalContent,
                 style = MaterialTheme.typography.bodyLarge,
-                color = MaterialTheme.colorScheme.onSurface,
+//                color = MaterialTheme.colorScheme.onSurface,
                 overflow = TextOverflow.Ellipsis
             )
 
@@ -119,7 +118,7 @@ fun NoteItem(
                     .border(),
                 text = note.createdAt.toDateTimeString(),
                 style = MaterialTheme.typography.labelMedium,
-                color = MaterialTheme.colorScheme.onSurface,
+//                color = MaterialTheme.colorScheme.onSurface,
                 textAlign = TextAlign.End,
                 maxLines = 1,
                 overflow = TextOverflow.Ellipsis

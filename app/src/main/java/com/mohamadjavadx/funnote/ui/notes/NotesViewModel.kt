@@ -3,6 +3,7 @@ package com.mohamadjavadx.funnote.ui.notes
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.mohamadjavadx.funnote.domain.model.Message
+import com.mohamadjavadx.funnote.domain.usecase.DeleteNote
 import com.mohamadjavadx.funnote.domain.usecase.DeleteNotes
 import com.mohamadjavadx.funnote.domain.usecase.GetNotesStream
 import com.mohamadjavadx.funnote.domain.util.NoteOrder
@@ -16,7 +17,7 @@ class NotesViewModel
 @Inject
 constructor(
     private val getNotesStream: GetNotesStream,
-    private val deleteNotes: DeleteNotes,
+    private val deleteNote: DeleteNote,
 ) : ViewModel() {
 
     private val _viewState = MutableStateFlow(NotesViewState(isLoading = true))
@@ -28,13 +29,9 @@ constructor(
 
     fun onEvent(event: NotesEvents) {
         when (event) {
-            is NotesEvents.ChangeViewOrder -> changeViewOrder(event.order)
-            is NotesEvents.DeleteSelectedNotes -> deleteSelectedNotes()
-            is NotesEvents.SelectNote -> selectNote(event.id)
-            is NotesEvents.DeselectNote -> deselectNote(event.id)
+            is NotesEvents.UpdateOrder -> changeViewOrder(event.order)
+            is NotesEvents.DeleteNote -> deleteNote(event.id)
             is NotesEvents.MessageShown -> removeShownMassage(event.message)
-            is NotesEvents.NavigateToCreateNewNote -> TODO()
-            is NotesEvents.NavigateToNoteDetail -> TODO()
             is NotesEvents.Refresh -> getNotes()
         }
     }
@@ -71,22 +68,8 @@ constructor(
         }
     }
 
-    private fun selectNote(id: Long) {
-        val selectedNotes = _viewState.value.selectedNotes + id
-        _viewState.update {
-            it.copy(selectedNotes = selectedNotes)
-        }
-    }
-
-    private fun deselectNote(id: Long) {
-        val selectedNotes = _viewState.value.selectedNotes - id
-        _viewState.update {
-            it.copy(selectedNotes = selectedNotes)
-        }
-    }
-
-    private fun deleteSelectedNotes() {
-        deleteNotes.invoke(_viewState.value.selectedNotes.toList())
+    private fun deleteNote(id:Long) {
+        deleteNote.invoke(id)
             .onEach { result ->
                 when (result) {
                     is Result.Error -> {

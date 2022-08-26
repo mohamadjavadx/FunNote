@@ -2,8 +2,8 @@ package com.mohamadjavadx.funnote.domain.usecase
 
 import com.mohamadjavadx.funnote.domain.model.Note
 import com.mohamadjavadx.funnote.domain.repository.NoteRepository
-import com.mohamadjavadx.funnote.domain.util.Arrangement.Ascending
-import com.mohamadjavadx.funnote.domain.util.Arrangement.Descending
+import com.mohamadjavadx.funnote.domain.util.OrderType.Ascending
+import com.mohamadjavadx.funnote.domain.util.OrderType.Descending
 import com.mohamadjavadx.funnote.domain.util.NoteOrder
 import com.mohamadjavadx.funnote.domain.util.NoteOrder.Criteria.*
 import com.mohamadjavadx.funnote.domain.util.Result
@@ -22,19 +22,19 @@ constructor(
         repository.getNotesStream().map { result ->
             if (result is Result.Success) {
                 val notes = result.data
-                when (noteOrder.arrangement) {
+                when (noteOrder.orderType) {
                     Ascending -> {
                         when (noteOrder.criteria) {
                             Title -> result.copy(data = notes.sortedBy { it.title.lowercase() })
-                            CreationDate -> result.copy(data = notes.sortedBy { it.createdAt })
-                            ModificationDate -> result.copy(data = notes.sortedBy { it.modifiedAt })
+                            DateCreated -> result.copy(data = notes.sortedBy { it.createdAt })
+                            DateModified -> result.copy(data = notes.sortedBy { it.modifiedAt })
                         }
                     }
                     Descending -> {
                         when (noteOrder.criteria) {
                             Title -> result.copy(data = notes.sortedByDescending { it.title.lowercase() })
-                            CreationDate -> result.copy(data = notes.sortedByDescending { it.createdAt })
-                            ModificationDate -> result.copy(data = notes.sortedByDescending { it.modifiedAt })
+                            DateCreated -> result.copy(data = notes.sortedByDescending { it.createdAt })
+                            DateModified -> result.copy(data = notes.sortedByDescending { it.modifiedAt })
                         }
                     }
                 }
