@@ -1,6 +1,5 @@
 package com.mohamadjavadx.funnote.domain.util
 
-import com.mohamadjavadx.funnote.domain.model.Markdown
 import com.mohamadjavadx.funnote.domain.model.Message
 import com.mohamadjavadx.funnote.domain.util.Result.*
 import kotlinx.coroutines.flow.Flow
@@ -17,7 +16,7 @@ sealed interface Result<out T> {
 
 fun <T> Flow<T>.asResult(
     buildExceptionMessage: ((exception: Throwable) -> Message) = {
-        Message.Log(Markdown(it.message ?: UNKNOWN_ERROR))
+        Message.Log(it.message ?: UNKNOWN_ERROR)
     }
 ): Flow<Result<T>> {
     return this

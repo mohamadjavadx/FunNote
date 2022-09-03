@@ -1,34 +1,30 @@
 package com.mohamadjavadx.funnote.data.source.local.model
 
-import androidx.room.Embedded
 import androidx.room.Entity
 import androidx.room.PrimaryKey
 import com.mohamadjavadx.funnote.domain.model.Note
-import kotlinx.datetime.Instant
+import com.mohamadjavadx.funnote.domain.model.NoteID
+import kotlinx.datetime.LocalDate
 
 @Entity
 data class NoteEntity(
     @PrimaryKey(autoGenerate = true)
-    val id: Long = 0,
+    var id: NoteID? = null,
     val title: String,
-    @Embedded
-    val content: MarkdownEntity,
-    val createdAt: Instant,
-    val modifiedAt: Instant,
+    val isCompleted: Boolean,
+    val scheduledFor: LocalDate,
 )
 
 fun NoteEntity.asExternalModel() = Note(
-    id = id,
+    id = id ?: 0,
     title = title,
-    content = content.asExternalModel(),
-    createdAt = createdAt,
-    modifiedAt = modifiedAt,
+    isCompleted = isCompleted,
+    scheduledFor = scheduledFor,
 )
 
 fun Note.asEntity() = NoteEntity(
     id = id,
     title = title,
-    content = content.asEntity(),
-    createdAt = createdAt,
-    modifiedAt = modifiedAt,
+    isCompleted = isCompleted,
+    scheduledFor = scheduledFor,
 )

@@ -1,11 +1,12 @@
 package com.mohamadjavadx.funnote.domain.model
 
-import kotlinx.datetime.Instant
+import kotlinx.datetime.LocalDate
 
 data class Note(
-    val id: Long,
+    val id: NoteID? = null,
     val title: String,
-    val content: Markdown,
-    val createdAt: Instant,
-    val modifiedAt: Instant,
+    val isCompleted: Boolean,
+    val scheduledFor: LocalDate,
 )
+
+typealias NoteID = Long

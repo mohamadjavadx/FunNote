@@ -1,6 +1,5 @@
 package com.mohamadjavadx.funnote.domain.usecase
 
-import com.mohamadjavadx.funnote.domain.model.Markdown
 import com.mohamadjavadx.funnote.domain.model.Message
 import com.mohamadjavadx.funnote.domain.model.Note
 import com.mohamadjavadx.funnote.domain.repository.NoteRepository
@@ -25,7 +24,7 @@ constructor(
     } catch (exception: Exception) {
         flow {
             emit(
-                Result.Error(Message.Snackbar(Markdown(exception.message ?: UNKNOWN_ERROR)))
+                Result.Error(Message.Snackbar(exception.message ?: UNKNOWN_ERROR))
             )
         }
     }

@@ -6,19 +6,19 @@ sealed class Message(
     val id: Long = UUID.randomUUID().mostSignificantBits,
 ) {
     data class Dialog(
-        val messageBody: Markdown,
+        val messageBody: String,
         val positiveAction: Action? = null,
         val negativeAction: Action? = null,
         val onDismiss: (() -> Unit)? = null,
     ) : Message()
 
     data class Snackbar(
-        val messageBody: Markdown,
+        val messageBody: String,
         val action: Action? = null,
     ) : Message()
 
     data class Log(
-        val messageBody: Markdown,
+        val messageBody: String,
     ) : Message()
 
     interface Action {

@@ -5,12 +5,14 @@ import com.mohamadjavadx.funnote.data.source.local.model.NoteEntity
 import com.mohamadjavadx.funnote.data.source.local.model.asEntity
 import com.mohamadjavadx.funnote.data.source.local.model.asExternalModel
 import com.mohamadjavadx.funnote.domain.model.Note
+import com.mohamadjavadx.funnote.domain.model.NoteID
 import com.mohamadjavadx.funnote.domain.repository.NoteRepository
 import com.mohamadjavadx.funnote.domain.util.Result
 import com.mohamadjavadx.funnote.domain.util.asResult
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 import kotlinx.coroutines.flow.map
+import kotlinx.datetime.LocalDate
 import javax.inject.Inject
 
 //todo implement with WorkManager
@@ -20,8 +22,11 @@ constructor(
     private val dao: NoteDao,
 ) : NoteRepository {
 
-    override fun getNoteStream(id: Long): Flow<Result<Note>> =
+    override fun getNoteStream(id: NoteID): Flow<Result<Note>> =
         dao.getNoteStream(id).map(NoteEntity::asExternalModel).asResult()
+
+    override fun getNotesStream(scheduledFor: LocalDate): Flow<Result<List<Note>>> =
+        dao.getNotesStream(scheduledFor).map { it.map(NoteEntity::asExternalModel) }.asResult()
 
     override fun getNotesStream(): Flow<Result<List<Note>>> =
         dao.getNotesStream().map { it.map(NoteEntity::asExternalModel) }.asResult()
@@ -30,11 +35,11 @@ constructor(
         dao.upsertNote(note.asEntity())
     }
 
-    override fun deleteNote(id: Long): Flow<Result<Unit>> = flow {
+    override fun deleteNote(id: NoteID): Flow<Result<Unit>> = flow {
         emit(dao.deleteNote(id))
     }.asResult()
 
-    override fun deleteNotes(ids: List<Long>): Flow<Result<Unit>> = flow {
+    override fun deleteNotes(ids: List<NoteID>): Flow<Result<Unit>> = flow {
         emit(dao.deleteNotes(ids))
     }.asResult()
 }

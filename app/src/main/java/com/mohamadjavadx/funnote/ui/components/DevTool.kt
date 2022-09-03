@@ -12,4 +12,4 @@ fun Modifier.border(
         green = Random.nextInt(0, 255),
         blue = Random.nextInt(0, 255)
     )
-) = border(width = 1.dp, color = color) /*this*/
+): Modifier = this/*.border(width = 1.dp, color = color)*/

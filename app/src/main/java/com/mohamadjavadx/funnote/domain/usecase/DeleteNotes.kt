@@ -1,5 +1,6 @@
 package com.mohamadjavadx.funnote.domain.usecase
 
+import com.mohamadjavadx.funnote.domain.model.NoteID
 import com.mohamadjavadx.funnote.domain.repository.NoteRepository
 import com.mohamadjavadx.funnote.domain.util.Result
 import dagger.hilt.android.scopes.ViewModelScoped
@@ -12,6 +13,6 @@ class DeleteNotes
 constructor(
     private val repository: NoteRepository,
 ) {
-    operator fun invoke(ids: List<Long>): Flow<Result<Unit>> =
+    operator fun invoke(ids: List<NoteID>): Flow<Result<Unit>> =
         repository.deleteNotes(ids)
 }
