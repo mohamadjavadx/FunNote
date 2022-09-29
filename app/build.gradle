@@ -4,7 +4,7 @@ plugins {
     id 'org.jetbrains.kotlin.plugin.serialization' version '1.7.0'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
-    id 'com.google.devtools.ksp' version '1.7.0-1.0.6' //todo update to 1.7.10
+    id 'com.google.devtools.ksp' version '1.7.10-1.0.6' //todo update to 1.7.10
 }
 
 kotlin{
@@ -81,82 +81,78 @@ android {
 
 dependencies {
 
-    //core
-    def core_version = "1.8.0"
-    implementation "androidx.core:core-ktx:$core_version"
-
-    //test
+    implementation "androidx.core:core-ktx:1.9.0"
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.3'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.4.0'
-    //compose.test
-    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
-    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
 
+    //UI
+    //ConstraintLayout
+    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
+    //Material
     implementation 'com.google.android.material:material:1.6.1'
-
-    //compose
+    //Compose
     implementation "androidx.compose.ui:ui:$compose_version"
     implementation "androidx.compose.ui:ui-tooling:$compose_version"
     implementation "androidx.compose.foundation:foundation:$compose_version"
-    //compose.material
-    implementation 'androidx.compose.material3:material3:1.0.0-beta01'
+    //Compose.ConstraintLayout
+    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
+    //Compose.Material
+    implementation 'androidx.compose.material3:material3:1.0.0-beta03'
     implementation "androidx.compose.material:material:$compose_version"
     implementation "androidx.compose.material:material-icons-core:$compose_version"
     implementation "androidx.compose.material:material-icons-extended:$compose_version"
-    //compose.livedata
+    //Compose.livedata
     implementation "androidx.compose.runtime:runtime-livedata:$compose_version"
-
-    implementation "androidx.constraintlayout:constraintlayout:2.1.4"
-    // To use constraintlayout in compose
-    implementation "androidx.constraintlayout:constraintlayout-compose:1.0.1"
-
-    //accompanist systemuicontroller for compose
+    //Compose.Accompanist
     implementation "com.google.accompanist:accompanist-systemuicontroller:$accompanist_version"
+    //Compose.Test
+    androidTestImplementation "androidx.compose.ui:ui-test-junit4:$compose_version"
+    debugImplementation "androidx.compose.ui:ui-test-manifest:$compose_version"
 
-    //activity
-    def activity_version = "1.5.1"
+    //Activity
+    def activity_version = "1.6.0"
     implementation "androidx.activity:activity-ktx:$activity_version"
-    //activity.compose
+    //Activity.Compose
     implementation "androidx.activity:activity-compose:$activity_version"
 
-    //fragment
-    def fragment_version = "1.5.2"
+    //Fragment
+    def fragment_version = "1.5.3"
     implementation "androidx.fragment:fragment-ktx:$fragment_version"
 
-    //lifecycle
+    //Lifecycle
     def lifecycle_version = "2.5.1"
     implementation "androidx.lifecycle:lifecycle-runtime-ktx:$lifecycle_version"
-    //lifecycle-livedata
+    //Lifecycle-Livedata
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycle_version"
-    //lifecycle-viewmodel
+    //Lifecycle-ViewModel
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycle_version"
-    //lifecycle-viewmodel-compose
+    //Lifecycle-ViewModel-Compose
     implementation "androidx.lifecycle:lifecycle-viewmodel-compose:$lifecycle_version"
 
-    //hilt
+    //Hilt
     def hilt_version = "2.38.1"
     implementation "com.google.dagger:hilt-android:$hilt_version"
     kapt "com.google.dagger:hilt-compiler:$hilt_version"
-    //hilt-navigation-compose
+    //Hilt-Navigation-Compose
     implementation "androidx.hilt:hilt-navigation-compose:1.0.0"
 
-    //navigation
-    def nav_version = "2.5.1"
+    //Navigation
+    def nav_version = "2.5.2"
     implementation "androidx.navigation:navigation-compose:$nav_version"
-    //compose destinations
+    //ComposeDestinations
     def composeDestinations_version = "1.6.15-beta"
     implementation "io.github.raamcosta.compose-destinations:core:$composeDestinations_version"
     ksp "io.github.raamcosta.compose-destinations:ksp:$composeDestinations_version"
 
-    //room
+    //Room
     def room_version = "2.4.3"
     implementation "androidx.room:room-runtime:$room_version"
     annotationProcessor "androidx.room:room-compiler:$room_version"
     kapt "androidx.room:room-compiler:$room_version"
     implementation "androidx.room:room-ktx:$room_version"
 
-    //kotlinx-datetime
+    //Kotlinx-Datetime
     implementation "org.jetbrains.kotlinx:kotlinx-datetime:0.4.0"
 
 
